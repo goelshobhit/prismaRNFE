@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "872f2229-10d5-4196-a709-1a786964bf17"
+      }
+    },
+    "owner": "simplevn"
   }
 }
