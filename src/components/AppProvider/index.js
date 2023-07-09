@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     color: "#000000",
     left: 0,
     position: 'absolute',
-    marginLeft: '20px',
+    marginLeft: 20,
   },
   userNameDark: {
     color: '#ffffff'

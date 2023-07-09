@@ -115,6 +115,7 @@ const LoginForm = () => {
           <Text style={styles.error}>{errors.password.message}</Text>
         )}
       </View>
+      <View style={styles.row}>
       <Pressable
         style={[styles.buttonWrapper, styles.buttonWrapperBorder]}
         onPress={handleSubmit(handleOnPressCreateProfile)}
@@ -138,6 +139,9 @@ const LoginForm = () => {
           <Text style={[styles.button1, styles.label1FlexBox]}>Sign Up</Text>
         </View>
       </Pressable>
+
+      </View>
+
     </View>
   );
 };
@@ -288,13 +292,18 @@ const styles = StyleSheet.create({
     color: Color.white,
   },
   signUp: {
-    marginRight: "4rem",
+    marginRight: 16,
   },
   input: {},
   error: {
     color: "red",
     marginTop: 4,
   },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  }
 });
 
 export default LoginForm;
