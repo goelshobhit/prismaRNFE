@@ -3,6 +3,7 @@ import * as React from "react";
 import { useFonts } from "expo-font";
 
 import { Screen } from "./src/components/Screen";
+import { Provider as PaperProvider } from "react-native-paper";
 import AppProvider from "./src/components/AppProvider";
 
 const App = () => {
@@ -15,9 +16,11 @@ const App = () => {
   }
 
   return (
-    <AppProvider>
-      <Screen />
-    </AppProvider>
+    <PaperProvider>
+      <AppProvider>
+        <Screen />
+      </AppProvider>
+    </PaperProvider>
   );
 };
 export default App;

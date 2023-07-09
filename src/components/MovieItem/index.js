@@ -35,7 +35,7 @@ const MovieItem = ({ movie, onDelete }) => {
           </Text>
         </View>
         <View style={styles.deleteIcon}>
-          <DeleteMovieIcon />
+          <DeleteMovieIcon id={movie.id} onDelete={(id) => onDelete(id)} />
         </View>
       </View>
 
