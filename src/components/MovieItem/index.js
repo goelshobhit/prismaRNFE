@@ -1,66 +1,100 @@
-import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useContext } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alerty,
+} from "react-native";
+import DeleteMovieIcon from "../DeleteMovieIcon";
+import { ThemeContext } from "../AppProvider";
+import { Color } from "../../../globalStyle";
 
 const MovieItem = ({ movie, onDelete }) => {
-  const [confirmDelete, setConfirmDelete] = useState(false);
-
-  const handleDelete = () => {
-    setConfirmDelete(true);
-  };
-
-  const confirmDeleteMovie = () => {
-    Alert.alert(
-      'Confirm Delete',
-      `Are you sure you want to delete ${movie.title}?`,
-      [
-        { text: 'Cancel', onPress: () => setConfirmDelete(false) },
-        { text: 'Delete', onPress: () => onDelete(movie.id) },
-      ],
-      { cancelable: false }
-    );
-  };
+  const { isDarkTheme } = useContext(ThemeContext);
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handleDelete}>
-      <Image source={{ uri: movie.poster }} style={styles.image} />
-      <Text style={styles.title}>{movie.title}</Text>
-      {confirmDelete && (
-        <TouchableOpacity style={styles.deleteButton} onPress={confirmDeleteMovie}>
-          <Text style={styles.deleteButtonText}>Delete</Text>
-        </TouchableOpacity>
-      )}
+    <TouchableOpacity
+      style={[styles.container, isDarkTheme && styles.containerDark]}
+      key={`${movie.id + movie.name + Math.random()}`}
+    >
+      <View style={styles.movieWrapper}>
+        <Image
+          source={{ uri: "https://source.unsplash.com/random/?Person&1" }}
+          style={styles.profileIcon}
+        />
+        <View style={styles.movieNameWrapper}>
+          <Text style={[styles.movieName, isDarkTheme && styles.movieNameDark]}>
+            {movie.name}
+          </Text>
+          <Text
+            style={[isDarkTheme && styles.movieNameDark, styles.directorName]}
+          >
+            {movie.directorName}
+          </Text>
+        </View>
+        <View style={styles.deleteIcon}>
+          <DeleteMovieIcon />
+        </View>
+      </View>
+
+      <Text
+        numberOfLines={5}
+        ellipsizeMode="tail"
+        style={[styles.movieDescription, isDarkTheme && styles.movieNameDark]}
+      >
+        {movie.description}
+      </Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
+  containerDark: {
+    backgroundColor: "#181A1C",
+  },
+  movieNameWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    marginLeft: 10,
+  },
+  movieWrapper: {
+    display: "flex",
+    flexDirection: "row",
+    marginBottom: 10,
+  },
   container: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    padding: 10,
+    borderColor: "#ccc",
+    padding: 15,
+    margin: 10,
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: "8px",
+  },
+  movieContainer: {
     marginBottom: 10,
   },
-  image: {
-    width: 100,
-    height: 150,
-    marginBottom: 10,
+  profileIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: 32, // To make it circular
   },
-  title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
+  movieName: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
-  deleteButton: {
-    backgroundColor: 'red',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    alignSelf: 'flex-start',
+  movieNameDark: {
+    color: Color.white,
   },
-  deleteButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+  directorName: {
+    fontSize: "0.25",
   },
+  deleteIcon: {
+    position:'absolute',
+    right: 0,
+  }
 });
 
 export default MovieItem;

@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, FlatList, ActivityIndicator, Alert } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, FlatList, ActivityIndicator, Alert , StyleSheet} from 'react-native';
 import MovieItem from '../../components/MovieItem';
-import api from '../../utils/request';
+import { getMovieList } from '../../utils/movieList';
+import { Color } from '../../../globalStyle';
+import { ThemeContext } from '../../components/AppProvider';
 
 const MovieList = () => {
+  const {isDarkTheme} = useContext(ThemeContext)
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -12,13 +15,14 @@ const MovieList = () => {
   useEffect(() => {
     loadMovies();
   }, []);
+  
 
   const loadMovies = async () => {
     if (loading || !hasMore) return;
 
     try {
       setLoading(true);
-      const response = await api.get(`/movies?page=${page}&limit=10`); // Replace with your API endpoint
+      const response = await getMovieList(page * 10); // Replace with your API endpoint
       const newMovies = response.data.movies;
 
       if (newMovies.length === 0) {
@@ -47,23 +51,32 @@ const MovieList = () => {
   };
 
   const handleLoadMore = () => {
-    if (!loading) {
       loadMovies();
-    }
   };
 
   return (
-    <View>
+    <View style={[styles.container, isDarkTheme && styles.containerDark]}>
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         ListFooterComponent={renderFooter}
         onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={2.5}
       />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    overflow: 'scroll',
+    height: '92vh',
+    backgroundColor: '#fff',
+  },
+  containerDark: {
+    backgroundColor: Color.black
+  }
+});
 
 export default MovieList;
