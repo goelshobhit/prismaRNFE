@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Text, StyleSheet, Pressable, View } from "react-native";
+import { Text, StyleSheet, Pressable, View, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput as PaperTextInput } from "react-native-paper";
 import { ThemeContext } from "../../components/AppProvider";
@@ -26,6 +26,7 @@ const LoginForm = () => {
   const handleNavigateToMovie = () => navigation.navigate("MovieList");
 
   const handleOnPressCreateProfile = (data) => {
+    console.log(data);
     let config = {
       method: "post",
       maxBodyLength: Infinity,
@@ -40,7 +41,6 @@ const LoginForm = () => {
       .request(config)
       .then((response) => {
         if (response.data) {
-          console.log(response.data);
           saveUserData(response.data);
           handleNavigateToMovie()
         }
@@ -115,34 +115,27 @@ const LoginForm = () => {
           <Text style={styles.error}>{errors.password.message}</Text>
         )}
       </View>
-      <View style={styles.row}>
-      <Pressable
-        style={[styles.buttonWrapper, styles.buttonWrapperBorder]}
+      <View style={styles.buttonsWrapper}>
+      <Button
+        style={styles.loginButton}
         onPress={handleSubmit(handleOnPressCreateProfile)}
+        type="submit"
+        title="Login"
       >
-        <View style={styles.button}>
-          <Text style={[styles.button1, styles.label1FlexBox]}>
-            Login
-          </Text>
-        </View>
-      </Pressable>
+      </Button>
 
       <Pressable
-        style={[
-          styles.buttonWrapper,
-          styles.buttonWrapperBorder,
-          styles.signUp,
-        ]}
+        style={styles.signUp}
         onPress={handleOnPress}
       >
         <View style={styles.button}>
           <Text style={[styles.button1, styles.label1FlexBox]}>Sign Up</Text>
         </View>
       </Pressable>
-
       </View>
 
-    </View>
+
+      </View>
   );
 };
 
@@ -273,9 +266,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderTopWidth: 1,
     padding: Padding.p_5xl,
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     flexDirection: "row",
-    left: 0,
     position: "absolute",
     borderStyle: "solid",
   },
@@ -293,16 +285,39 @@ const styles = StyleSheet.create({
   },
   signUp: {
     marginRight: 16,
+    position: 'absolute',
+    right: 0,
   },
   input: {},
   error: {
     color: "red",
     marginTop: 4,
   },
-  row: {
+  buttonsWrapper: {
+    position: 'absolute',
+    bottom: 0,
     display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    flexDirection:'row',
+    alignItems: 'center',
+    justifyContent:'space-between',
+    width: '100%',
+    marginBottom: '10px'
+  },
+  loginButton: {
+    backgroundColor: Color.colourPrimary,
+    shadowColor: "rgba(0, 0, 0, 0)",
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowRadius: 4,
+    elevation: 4,
+    shadowOpacity: 1,
+    height: 44,
+    paddingHorizontal: Padding.p_xs,
+    paddingVertical: Padding.p_5xs,
+    justifyContent: "center",
+    borderRadius: Border.br_9xs,
   }
 });
 

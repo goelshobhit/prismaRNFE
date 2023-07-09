@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const api = axios.create({
-  baseURL: 'https://viral-nation-so1v.onrender.com',
+  baseURL: 'http://localhost:8080',
 });
 
 // Function to set the JWT token to the request headers

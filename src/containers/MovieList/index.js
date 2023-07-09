@@ -22,11 +22,10 @@ const MovieList = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  useEffect(() => {
-    loadMovies();
-  }, []);
+
 
   useEffect(() => {
+    if(searchQuery.length !== 0){
     // Debounce the search function with a delay of 500ms
     const debouncedSearch = debounce(searchMovies, 500);
 
@@ -37,6 +36,12 @@ const MovieList = () => {
     return () => {
       debouncedSearch.cancel();
     };
+    } 
+    
+    if(searchQuery.length === 0) {
+      loadMovies();
+    }
+
   }, [searchQuery]);
 
   const searchMovies = async () => {
@@ -106,6 +111,7 @@ const MovieList = () => {
   };
 
   const handleClear = async () => {
+    setSearchQuery("");
     const response = await getMovieList(1); // Replace with your API endpoint
     const newMovies = response.data.movies;
     setMovies(newMovies);
